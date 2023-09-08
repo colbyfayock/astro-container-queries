@@ -1,0 +1,23 @@
+---
+import Layout from "./components/Layout.astro";
+import ResponsiveCard from "./components/ResponsiveCard.astro";
+
+import tShirts from "../tShirts";
+---
+
+<Layout title="Product list">
+	<div class="flex flex-wrap @container">
+		{tShirts.map(({ src, name, id }) => (
+			<div class="@container w-full @md:w-1/3 p-1" style={{
+				viewTransitionName: `tShirts-${id}`,
+			}}>
+				<a href={`/top-nav/${id}`}>
+				  <ResponsiveCard src={src} alt={name}>
+			 		  <h1 class="text-md @lg:text-3xl font-bold">{name}</h1>
+				  </ResponsiveCard>
+			  </a>
+			</div>
+		))}
+	</div>
+</Layout>
+

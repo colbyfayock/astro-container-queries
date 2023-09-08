@@ -1,0 +1,29 @@
+---
+import { constructCloudinaryUrl } from '@cloudinary-util/url-loader';
+
+const { src, alt, width, height, crop, className } = {
+  width: 600,
+  height: 600,
+  crop: "fit",
+  ...Astro.props
+};
+
+const url = constructCloudinaryUrl({
+  options: {
+    src,
+    width,
+    height,
+    crop,
+    format: 'default',
+    quality: 'default',
+    rawTransformations: ["e_background_removal", "b_rgb:111827"]
+  },
+  config: {
+    cloud: {
+      cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME,
+    }
+  }
+});
+---
+
+<img src={url} alt={alt} width={width} height={height} class={className} />
