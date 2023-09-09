@@ -11,6 +11,9 @@ dependencies:
   '@cloudinary-util/url-loader':
     specifier: ^3.10.0
     version: 3.10.0
+  '@cloudinary/url-gen':
+    specifier: ^1.11.2
+    version: 1.11.2
   '@tailwindcss/container-queries':
     specifier: ^0.1.1
     version: 0.1.1(tailwindcss@3.3.3)

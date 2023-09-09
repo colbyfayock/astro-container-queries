@@ -1,5 +1,14 @@
 ---
-import { constructCloudinaryUrl } from '@cloudinary-util/url-loader';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fit } from '@cloudinary/url-gen/actions/resize';
+import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
+
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME
+  }
+});
 
 const { src, alt, width, height, crop, className } = {
   width: 600,
@@ -8,22 +17,32 @@ const { src, alt, width, height, crop, className } = {
   ...Astro.props
 };
 
-const url = constructCloudinaryUrl({
-  options: {
-    src,
-    width,
-    height,
-    crop,
-    format: 'default',
-    quality: 'default',
-    rawTransformations: ["e_background_removal", "b_rgb:111827"]
-  },
-  config: {
-    cloud: {
-      cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME,
-    }
-  }
-});
+console.log('src', src)
+
+const url = cld.image(src)
+  .effect(backgroundRemoval())
+  .backgroundColor('rgb:111827')
+  .resize(fit().width(width).height(height))
+  .format('auto')
+  .quality('auto')
+  .toURL();
+
+// const url = constructCloudinaryUrl({
+//   options: {
+//     src,
+//     width,
+//     height,
+//     crop,
+//     format: 'default',
+//     quality: 'default',
+//     rawTransformations: ["e_background_removal", "b_rgb:111827"]
+//   },
+//   config: {
+//     cloud: {
+//       cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME,
+//     }
+//   }
+// });
 ---
 
 <img src={url} alt={alt} width={width} height={height} class={className} />
