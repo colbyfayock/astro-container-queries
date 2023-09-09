@@ -1,7 +1,8 @@
 ---
 import { Cloudinary } from '@cloudinary/url-gen';
-import { fit } from '@cloudinary/url-gen/actions/resize';
+import { fit, pad } from '@cloudinary/url-gen/actions/resize';
 import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
+import { generativeFill } from '@cloudinary/url-gen/qualifiers/background';
 
 
 const cld = new Cloudinary({
@@ -17,12 +18,10 @@ const { src, alt, width, height, crop, className } = {
   ...Astro.props
 };
 
-console.log('src', src)
-
 const url = cld.image(src)
   .effect(backgroundRemoval())
   .backgroundColor('rgb:111827')
-  .resize(fit().width(width).height(height))
+  .resize(pad().width(width).height(height).background(generativeFill()))
   .format('auto')
   .quality('auto')
   .toURL();
